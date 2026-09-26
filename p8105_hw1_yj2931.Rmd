@@ -28,7 +28,7 @@ The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` vari
 ## Scatterplot of flipper_length_mm (y) vs bill_length_mm (x)
 
 ```{r}
-penguin_scatter_plot = 
+penguin_scatterplot = 
 ggplot(
   data = penguins,
   mapping = aes(
@@ -36,8 +36,6 @@ ggplot(
     y = flipper_length_mm, 
     color = species)
   ) + geom_point(na.rm = TRUE)
-
-penguin_scatter_plot
 ```
 
 ## Save the scatterplot
@@ -45,7 +43,7 @@ penguin_scatter_plot
 ```{r}
 ggsave(
   filename = "penguin_scatterplot.pdf",
-  plot = penguin_scatter_plot
+  plot = penguin_scatterplot
 )
 ```
 
