@@ -36,6 +36,8 @@ ggplot(
     y = flipper_length_mm, 
     color = species)
   ) + geom_point(na.rm = TRUE)
+
+print(penguin_scatterplot)
 ```
 
 ## Save the scatterplot
