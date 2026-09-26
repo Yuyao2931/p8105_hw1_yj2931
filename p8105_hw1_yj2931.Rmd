@@ -1,0 +1,97 @@
+---
+title: "p8105_hw1"
+author: "Yuyao Jin (yj2931)"
+date: "2026-09-26"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+```
+
+# Problem 1
+
+## Load the "penguins" dataset.
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+## Description of the `penguins` dataset
+
+The `penguins` dataset contains information on penguins, including species, island, bill length and depth, flipper length, body mass, sex, and year. 
+
+The three species in the dataset are `r paste(unique(pull(penguins, species)), collapse = ", ")`, and the penguins were observed on `r paste(unique(pull(penguins, island)), collapse = ", ")` islands.
+
+The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` variables. The mean flipper length is `r round(mean(pull(penguins, flipper_length_mm), na.rm = TRUE), 2)` mm.
+
+## Scatterplot of flipper_length_mm (y) vs bill_length_mm (x)
+
+```{r}
+penguin_scatter_plot = 
+ggplot(
+  data = penguins,
+  mapping = aes(
+    x = bill_length_mm, 
+    y = flipper_length_mm, 
+    color = species)
+  ) + geom_point(na.rm = TRUE)
+```
+
+## Save the scatterplot
+
+```{r}
+ggsave(
+  filename = "penguin_scatterplot.pdf",
+  plot = penguin_scatter_plot
+)
+```
+
+# Question 2
+
+## Create a data frame comprised of:
+a random sample of size 10 from a standard Normal distribution
+a logical vector indicating whether elements of the sample are greater than 0
+a character vector of length 10
+a factor vector of length 10, with 3 different factor “levels”
+
+```{r}
+set.seed(0)
+
+overwatch_df = tibble(
+  sample = rnorm(10),
+  positive = sample > 0,
+  character = c(
+    "mercy", "lucio", "dva", "winston", "doomfist",
+    "illari", "jetpack", "kiriko", "wuyang", "ashe"
+  ),
+  factor = factor(c(
+    "support", "support", "tank", "tank", "tank",
+    "support", "support", "support", "support", "damage"
+  ))
+)
+```
+
+## Take the mean of each variable in your dataframe. What works and what doesn’t?
+
+```{r}
+mean(pull(overwatch_df, sample))
+mean(pull(overwatch_df, positive))
+mean(pull(overwatch_df, character))
+mean(pull(overwatch_df, factor))
+```
+
+The mean works only for the numeric and logical variables in this dataset. For the logical variable, R treats TRUE as 1 and FALSE as 0, so the mean represents the proportion of TRUE values. The mean does not work for character or factor variables because they are not numeric.
+
+```{r results = "hide", warning = FALSE}
+as.numeric(pull(overwatch_df, positive))
+as.numeric(pull(overwatch_df, character))
+as.numeric(pull(overwatch_df, factor))
+```
+
+## When using `as.numeric()`...
+
+What happens, and why? Does this help explain what happens when you try to take the mean?
+
+Logical variables can be converted to numeric values, with `TRUE` represented as `1` and `FALSE` as `0`, so its mean can be calculated. Factor variables can also be converted to numeric values based on their underlying factor levels, but taking mean of factor variables does not make sense. However, character variables cannot be directly converted to meaningful numeric values bur NAs.
