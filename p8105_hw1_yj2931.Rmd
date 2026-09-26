@@ -8,7 +8,6 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-library(ggplot2)
 ```
 
 # Problem 1
@@ -37,6 +36,8 @@ ggplot(
     y = flipper_length_mm, 
     color = species)
   ) + geom_point(na.rm = TRUE)
+
+penguin_scatter_plot
 ```
 
 ## Save the scatterplot
@@ -94,4 +95,4 @@ as.numeric(pull(overwatch_df, factor))
 
 What happens, and why? Does this help explain what happens when you try to take the mean?
 
-Logical variables can be converted to numeric values, with `TRUE` represented as `1` and `FALSE` as `0`, so its mean can be calculated. Factor variables can also be converted to numeric values based on their underlying factor levels, but taking mean of factor variables does not make sense. However, character variables cannot be directly converted to meaningful numeric values bur NAs.
+Logical variables can be converted to numeric values, with `TRUE` represented as `1` and `FALSE` as `0`, so its mean can be calculated. Factor variables can also be converted to numeric values based on their underlying factor levels, but taking mean of factor variables does not make sense. However, character variables cannot be directly converted to meaningful numeric values but NAs.
